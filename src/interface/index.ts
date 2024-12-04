@@ -1,44 +1,49 @@
-export interface SocialMedia {
-    socialNetwork: string;
-    profileLink: string;
-    domainId: number;
-  }
-  
-  export interface SubDomain {
-    domainId: number;
-    name: string;
-    registrationDate: Date;
-  }
-  
-  export interface TextRecord {
-    nameValue: string;
-    link: string;
-    domainId: number;
-  }
-  
-  export interface Transaction {
-    publicKey: string;
-    slot: bigint;
-    walletId: number;
-    domainId?: number;
-    submittedAt: Date;
-    transactionType: number;
-    error?: string | null;
-    confirmed: boolean;
-  }
-  
-  export interface User {
-    fullName: string;
-    walletId: number;
-    domainId: number;
-    email?: string | null;
-    bio?: string | null;
-    avatar?: string | null;
-  }
-  
-  export interface Wallet {
-    publicKey: string;
-    balance: string;  // Decimal value is usually stored as a string
-    userId: number;
-  }
-  
+export interface User {
+  id: string;
+  gender: string;
+  profile?: Profile | null;
+  experiences: Experience[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Profile {
+  id: string;
+  name: string;
+  dateOfBirth: Date;
+  personality: string;
+  bio: string;
+  images: string[]; // Array of image URLs or paths
+  userId: string;   // Foreign key to User
+}
+
+export interface Experience {
+  id: string;
+  budget: number;
+  partner?: string | null; // Optional
+  options: Record<string, any>; // Flexible JSON for options
+  tableLayoutChosen: Record<string, any>; // Flexible JSON for table layout
+  timeChosen: Date;
+  outcome: string;
+  rating: number; // Float value for rating
+  userId: string; // Foreign key to User
+}
+
+export interface Place {
+  id: string;
+  name: string;
+  location: string;
+  menu: Menu[];
+  tableLayout: Record<string, any>; // JSON for table layout
+  timings: string; // Store timing as string or convert to specific type
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Menu {
+  id: string;
+  optionName: string;
+  optionPrice: number;
+  optionImages: string[]; // Array of image URLs or paths
+  placeId: string;        // Foreign key to Place
+}

@@ -12,3 +12,58 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model Partner {
+  id           String    @id @default(uuid())
+  name         String
+  location     String
+  menu         Menu[]
+  tableLayout  Json      // Assuming table layout can be JSON, e.g., layout grid or structure
+  timings      String    // This can be a string, or you can define it in more detail if needed
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Menu {
+  id          String     @id @default(uuid())
+  optionName  String
+  optionPrice Float
+  optionImages String[]  // Array of image URLs or paths
+  placeId     String
+  place       Partner      @relation(fields: [placeId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id          String       @id @default(uuid())
+  gender      String
+  profile     Profile?
+  experiences Experience[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Profile {
+  id            String   @id @default(uuid())
+  name          String
+  dateOfBirth   DateTime
+  personality   String
+  bio           String
+  images        String[] // Array of image URLs or paths
+  userId        String @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id               String   @id @default(uuid())
+  budget           Float
+  partner          String?
+  options          Json     // Stores options in a flexible JSON structure
+  tableLayoutChosen Json    // Represents table layout as JSON
+  timeChosen       DateTime
+  outcome          String
+  rating           Float    // Rating out of 5 or 10
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
