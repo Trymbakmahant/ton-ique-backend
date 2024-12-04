@@ -8,10 +8,10 @@ const requireAdmin = (req: Request, res: Response, next: NextFunction): void => 
     req.body.passkey as string;
 
   if (passkey === process.env.ADMIN_KEY) {
-    return next(); // Passkey is correct, proceed to the route handler
+    return next(); 
   }
 
-  // Passkey is incorrect or missing
+  
   res.status(403).json({ message: "Forbidden: Incorrect or missing passkey" });
 };
 
